@@ -13,16 +13,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # --------------------------------------------------
+      # 1. Checkout repository INCLUDING Git LFS files
+      # --------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          lfs: true
 
+      # --------------------------------------------------
+      # 2. Set up Python
+      # --------------------------------------------------
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
+      # --------------------------------------------------
+      # 3. Read and validate version.txt
+      # --------------------------------------------------
       - name: Read and validate version
         id: version
         shell: bash
@@ -33,11 +43,13 @@ jobs:
           echo "version.txt: $VERSION"
           echo "Git tag:     $TAG"
 
+          # Validate semantic version format
           if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "ERROR: Invalid version.txt: $VERSION"
+            echo "ERROR: Invalid version: $VERSION"
             exit 1
           fi
 
+          # Expected tag
           EXPECTED_TAG="dataset-v${VERSION}"
 
           if [ "$TAG" != "$EXPECTED_TAG" ]; then
@@ -50,10 +62,16 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
+      # --------------------------------------------------
+      # 4. Build manifest
+      # --------------------------------------------------
       - name: Build manifest
         run: |
           python tools/build_manifest.py
 
+      # --------------------------------------------------
+      # 5. Verify build output
+      # --------------------------------------------------
       - name: Verify build output
         shell: bash
         run: |
@@ -70,9 +88,13 @@ jobs:
             exit 1
           fi
 
-          echo "Release files:"
+          echo ""
+          echo "=== Release files ==="
           ls -lh dist/
 
+      # --------------------------------------------------
+      # 6. Create GitHub Release
+      # --------------------------------------------------
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -84,12 +106,21 @@ jobs:
             dist/manifest.json \
             dist/*.zip
 
+      # --------------------------------------------------
+      # 7. Verify GitHub Release
+      # --------------------------------------------------
       - name: Verify GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
+          echo "=== Release information ==="
+
           gh release view "${{ steps.version.outputs.tag }}" \
             --repo "${{ github.repository }}"
+
+          echo ""
+          echo "=== Downloading manifest for verification ==="
 
           rm -rf /tmp/dataset-release
           mkdir -p /tmp/dataset-release
@@ -101,4 +132,8 @@ jobs:
 
           echo ""
           echo "=== Released manifest ==="
+
           cat /tmp/dataset-release/manifest.json
+
+          echo ""
+          echo "=== Release verification successful ==="
