@@ -49,7 +49,7 @@ jobs:
             exit 1
           fi
 
-          # Expected tag
+          # Verify tag matches version.txt
           EXPECTED_TAG="dataset-v${VERSION}"
 
           if [ "$TAG" != "$EXPECTED_TAG" ]; then
@@ -93,18 +93,42 @@ jobs:
           ls -lh dist/
 
       # --------------------------------------------------
-      # 6. Create GitHub Release
+      # 6. Create or update GitHub Release
       # --------------------------------------------------
-      - name: Create GitHub Release
+      - name: Create or update GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
-          gh release create "${{ steps.version.outputs.tag }}" \
+          TAG="${{ steps.version.outputs.tag }}"
+          VERSION="${{ steps.version.outputs.version }}"
+
+          echo "Checking GitHub Release: $TAG"
+
+          if gh release view "$TAG" --repo "${{ github.repository }}" > /dev/null 2>&1; then
+            echo "Release already exists: $TAG"
+            echo "Updating existing release..."
+          else
+            echo "Release does not exist."
+            echo "Creating release: $TAG"
+
+            gh release create "$TAG" \
+              --repo "${{ github.repository }}" \
+              --title "Dataset v${VERSION}" \
+              --notes "Dataset release ${VERSION}"
+          fi
+
+          echo ""
+          echo "=== Uploading release assets ==="
+
+          gh release upload "$TAG" \
             --repo "${{ github.repository }}" \
-            --title "Dataset v${{ steps.version.outputs.version }}" \
-            --notes "Dataset release ${{ steps.version.outputs.version }}" \
+            --clobber \
             dist/manifest.json \
             dist/*.zip
+
+          echo ""
+          echo "Release assets uploaded successfully."
 
       # --------------------------------------------------
       # 7. Verify GitHub Release
@@ -114,9 +138,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
+          TAG="${{ steps.version.outputs.tag }}"
+
           echo "=== Release information ==="
 
-          gh release view "${{ steps.version.outputs.tag }}" \
+          gh release view "$TAG" \
             --repo "${{ github.repository }}"
 
           echo ""
@@ -125,7 +151,7 @@ jobs:
           rm -rf /tmp/dataset-release
           mkdir -p /tmp/dataset-release
 
-          gh release download "${{ steps.version.outputs.tag }}" \
+          gh release download "$TAG" \
             --repo "${{ github.repository }}" \
             --pattern "manifest.json" \
             --dir /tmp/dataset-release
