@@ -1,7 +1,9 @@
 name: Release Dataset
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'dataset-v*'
 
 permissions:
   contents: write
@@ -21,19 +23,32 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Read version
+      - name: Read and validate version
         id: version
         shell: bash
         run: |
           VERSION=$(tr -d '[:space:]' < version.txt)
+          TAG="${GITHUB_REF_NAME}"
+
+          echo "version.txt: $VERSION"
+          echo "Git tag:     $TAG"
 
           if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Invalid version: $VERSION"
+            echo "ERROR: Invalid version.txt: $VERSION"
+            exit 1
+          fi
+
+          EXPECTED_TAG="dataset-v${VERSION}"
+
+          if [ "$TAG" != "$EXPECTED_TAG" ]; then
+            echo "ERROR: Tag does not match version.txt"
+            echo "Expected: $EXPECTED_TAG"
+            echo "Actual:   $TAG"
             exit 1
           fi
 
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "tag=dataset-v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Build manifest
         run: |
@@ -42,29 +57,23 @@ jobs:
       - name: Verify build output
         shell: bash
         run: |
-          test -f dist/manifest.json
+          if [ ! -f dist/manifest.json ]; then
+            echo "ERROR: dist/manifest.json not found"
+            exit 1
+          fi
 
           shopt -s nullglob
           ZIP_FILES=(dist/*.zip)
 
           if [ ${#ZIP_FILES[@]} -eq 0 ]; then
-            echo "No ZIP files found in dist/"
+            echo "ERROR: No ZIP files found in dist/"
             exit 1
           fi
 
           echo "Release files:"
           ls -lh dist/
 
-      - name: Check tag does not already exist
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if gh release view "${{ steps.version.outputs.tag }}" --repo "${{ github.repository }}" >/dev/null 2>&1; then
-            echo "Release ${{ steps.version.outputs.tag }} already exists."
-            exit 1
-          fi
-
-      - name: Create GitHub release
+      - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -75,18 +84,21 @@ jobs:
             dist/manifest.json \
             dist/*.zip
 
-      - name: Verify release
+      - name: Verify GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view "${{ steps.version.outputs.tag }}" \
             --repo "${{ github.repository }}"
 
-          echo ""
-          echo "Manifest:"
+          rm -rf /tmp/dataset-release
+          mkdir -p /tmp/dataset-release
+
           gh release download "${{ steps.version.outputs.tag }}" \
             --repo "${{ github.repository }}" \
             --pattern "manifest.json" \
             --dir /tmp/dataset-release
 
+          echo ""
+          echo "=== Released manifest ==="
           cat /tmp/dataset-release/manifest.json
