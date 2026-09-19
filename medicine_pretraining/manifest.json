@@ -1,0 +1,13 @@
+{
+  "version": "v1.0-medicine-base-pretraining",
+  "domain": "clinical_medicine_pharmacology_genetics",
+  "total_records": 20000,
+  "total_bytes": 69959106,
+  "total_tokens_est": 17489776,
+  "partitions_count": 3,
+  "partitions": [
+    "medicine_part_001.jsonl",
+    "medicine_part_002.jsonl",
+    "medicine_part_003.jsonl"
+  ]
+}

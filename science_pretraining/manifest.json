@@ -1,0 +1,11 @@
+{
+  "version": "v1.0-science-pretraining",
+  "domain": "scientific_literature",
+  "total_records": 3138,
+  "total_bytes": 27253673,
+  "total_tokens_est": 6813418,
+  "partitions_count": 1,
+  "partitions": [
+    "science_part_001.jsonl"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "version": "v1.0-hardware-base-pretraining",
+  "domain": "hardware_engineering_rtl",
+  "total_records": 20000,
+  "total_bytes": 100639875,
+  "total_tokens_est": 25159968,
+  "partitions_count": 4,
+  "partitions": [
+    "hardware_part_001.jsonl",
+    "hardware_part_002.jsonl",
+    "hardware_part_003.jsonl",
+    "hardware_part_004.jsonl"
+  ]
+}

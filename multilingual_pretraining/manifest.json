@@ -1,0 +1,12 @@
+{
+  "version": "v1.0-multilingual-base-pretraining",
+  "domain": "multilingual_cross_lingual_alignment",
+  "total_records": 20000,
+  "total_bytes": 40451778,
+  "total_tokens_est": 10112944,
+  "partitions_count": 2,
+  "partitions": [
+    "multi_part_001.jsonl",
+    "multi_part_002.jsonl"
+  ]
+}

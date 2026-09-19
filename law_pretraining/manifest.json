@@ -1,0 +1,20 @@
+{
+  "version": "base-law-v1.0",
+  "total_records": 20000,
+  "total_bytes": 92368371,
+  "total_mb": 88.08934307098389,
+  "estimated_tokens": 22162810,
+  "partitions_count": 4,
+  "partition_files": [
+    "base_law_part_001.jsonl",
+    "base_law_part_002.jsonl",
+    "base_law_part_003.jsonl",
+    "base_law_part_004.jsonl"
+  ],
+  "subdomain_distribution": {
+    "commercial_contracts": 3937,
+    "regulatory_compliance": 7986,
+    "intellectual_property": 3979,
+    "jurisprudence_irac": 4098
+  }
+}

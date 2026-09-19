@@ -1,0 +1,26 @@
+{
+  "version": "base-stem-v1.0",
+  "total_records": 20000,
+  "total_bytes": 80317073,
+  "total_mb": 76.59632968902588,
+  "estimated_tokens": 18277211,
+  "average_latex_density": 0.359,
+  "partitions_count": 3,
+  "partition_files": [
+    "base_stem_part_001.jsonl",
+    "base_stem_part_002.jsonl",
+    "base_stem_part_003.jsonl"
+  ],
+  "subdomain_distribution": {
+    "real_analysis": 2003,
+    "abstract_algebra": 1945,
+    "stochastic_calculus": 1995,
+    "olympiad_math": 1883,
+    "complex_analysis": 1994,
+    "advanced_calculus": 1999,
+    "theoretical_physics": 2107,
+    "number_theory": 2010,
+    "linear_algebra": 2044,
+    "quantum_mechanics": 2020
+  }
+}

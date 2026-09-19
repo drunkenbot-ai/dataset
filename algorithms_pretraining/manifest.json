@@ -1,0 +1,14 @@
+{
+  "version": "v1.0-algorithms-base-pretraining",
+  "domain": "competitive_algorithms_graph_theory",
+  "total_records": 20000,
+  "total_bytes": 95907551,
+  "total_tokens_est": 23976887,
+  "partitions_count": 4,
+  "partitions": [
+    "algo_part_001.jsonl",
+    "algo_part_002.jsonl",
+    "algo_part_003.jsonl",
+    "algo_part_004.jsonl"
+  ]
+}

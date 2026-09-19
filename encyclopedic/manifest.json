@@ -1,0 +1,37 @@
+{
+  "version": "encyclopedic-curated-v1.0",
+  "total_records": 76889,
+  "total_bytes": 524302989,
+  "total_mb": 500.0142946243286,
+  "estimated_tokens": 131075747,
+  "partitions_count": 18,
+  "partition_files": [
+    "encyclopedic_part_001.jsonl",
+    "encyclopedic_part_002.jsonl",
+    "encyclopedic_part_003.jsonl",
+    "encyclopedic_part_004.jsonl",
+    "encyclopedic_part_005.jsonl",
+    "encyclopedic_part_006.jsonl",
+    "encyclopedic_part_007.jsonl",
+    "encyclopedic_part_008.jsonl",
+    "encyclopedic_part_009.jsonl",
+    "encyclopedic_part_010.jsonl",
+    "encyclopedic_part_011.jsonl",
+    "encyclopedic_part_012.jsonl",
+    "encyclopedic_part_013.jsonl",
+    "encyclopedic_part_014.jsonl",
+    "encyclopedic_part_015.jsonl",
+    "encyclopedic_part_016.jsonl",
+    "encyclopedic_part_017.jsonl",
+    "encyclopedic_part_018.jsonl"
+  ],
+  "filtering_stats": {
+    "articles_processed": 78380,
+    "articles_passed": 76889,
+    "dropped_stubs": 98,
+    "dropped_lists": 1068,
+    "dropped_chronologies": 229,
+    "dropped_disambiguations": 43,
+    "dropped_tables": 53
+  }
+}

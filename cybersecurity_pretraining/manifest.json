@@ -1,0 +1,13 @@
+{
+  "version": "v1.0-cybersecurity-base-pretraining",
+  "domain": "cybersecurity_cryptography",
+  "total_records": 20000,
+  "total_bytes": 65221197,
+  "total_tokens_est": 16305299,
+  "partitions_count": 3,
+  "partitions": [
+    "cyber_part_001.jsonl",
+    "cyber_part_002.jsonl",
+    "cyber_part_003.jsonl"
+  ]
+}
