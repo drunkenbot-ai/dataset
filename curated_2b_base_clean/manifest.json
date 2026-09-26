@@ -1,0 +1,18 @@
+{
+  "total_records": 36674,
+  "total_bytes": 259285230,
+  "total_mb": 247.27,
+  "estimated_tokens": 67328816,
+  "partitions_count": 9,
+  "partition_files": [
+    "curated_clean_0001.jsonl",
+    "curated_clean_0002.jsonl",
+    "curated_clean_0003.jsonl",
+    "curated_clean_0004.jsonl",
+    "curated_clean_0005.jsonl",
+    "curated_clean_0006.jsonl",
+    "curated_clean_0007.jsonl",
+    "curated_clean_0008.jsonl",
+    "curated_clean_0009.jsonl"
+  ]
+}

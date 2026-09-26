@@ -1,0 +1,13 @@
+{
+  "total_records": 12926,
+  "total_bytes": 96294746,
+  "total_mb": 91.83,
+  "estimated_tokens": 25005250,
+  "partitions_count": 4,
+  "partition_files": [
+    "open_web_math_0001.jsonl",
+    "open_web_math_0002.jsonl",
+    "open_web_math_0003.jsonl",
+    "open_web_math_0004.jsonl"
+  ]
+}

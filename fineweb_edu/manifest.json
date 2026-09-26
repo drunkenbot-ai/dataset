@@ -1,0 +1,13 @@
+{
+  "total_records": 18901,
+  "total_bytes": 96289377,
+  "total_mb": 91.83,
+  "estimated_tokens": 25000959,
+  "partitions_count": 4,
+  "partition_files": [
+    "fineweb_edu_0001.jsonl",
+    "fineweb_edu_0002.jsonl",
+    "fineweb_edu_0003.jsonl",
+    "fineweb_edu_0004.jsonl"
+  ]
+}
